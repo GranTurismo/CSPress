@@ -17,9 +17,15 @@ namespace CSPress
         private void checkBox1_CheckedChanged(object sender, EventArgs e)//როდესაც რომელიმე ჩეკბოქსი მოინიშნება
         {
             if (checkBox1.Checked || checkBox2.Checked || checkBox3.Checked)//თუ რომელიმე ჩეკბოქსი მონიშნულია
+            {
                 comboBox1.Visible = true;//გამოჩნდეს კომბობოქსი
+                comboBox2.Visible = true;
+            }
             else
+            {
                 comboBox1.Visible = false;//თუ არცერთია მონიშნული, კომბობოქსიც გაქრეს
+                comboBox2.Visible = false;
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)//ეს მეთოდი გამოიძახება,როცა ჩაიტვირთება ფორმა
@@ -31,12 +37,15 @@ namespace CSPress
              * ამ ყველაფერს,კოლექციებთან მუშაობას ახორციელებს Linq "ბიბლიოთეკა"(მაღლა გვიწერია,using System.Linq)
              */
 
-             /*IEnumerable წარმოადგენს ყველაზე მაღალ საფეხურს კოლექციებისას(ლისტების და მასივების). 
-              * ის არის ყველა კოლექციის მშობელი კლასი(უფროსწორად ინტერფეისი,მაგრამ ეგ ჯერ არ გვისწავლია)*/
+            /*IEnumerable წარმოადგენს ყველაზე მაღალ საფეხურს კოლექციებისას(ლისტების და მასივების). 
+             * ის არის ყველა კოლექციის მშობელი კლასი(უფროსწორად ინტერფეისი,მაგრამ ეგ ჯერ არ გვისწავლია)*/
 
             //კომპიუტერზე დაინსტალირებული ფონტების დამატება კომბობქსში სათითაოდ
             foreach (var item in families)
                 comboBox1.Items.Add(item);
+            for (int i = 8; i < 78; i += 4)
+                comboBox2.Items.Add(i);
+            comboBox2.SelectedIndex=0;
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)//გამოიძახება,როცა კომბობოქსში ახალი აითემი აირჩევა
@@ -59,9 +68,22 @@ namespace CSPress
         {
             ComboBox comboBox = comboBox1;//კომბობოქსზე წვდომა 
             string font = comboBox1.SelectedItem as string;//კომბობოქსში მონიშნული აითემის აღება და წვდომა მასზე როგორც string-ზე(ფონტის სახელი)
-            control.Font = new Font(font,control.Font.Size,FontStyle.Regular);//ფონტის მინიჭება გადმოცემულ კონტროლზე
+            control.Font = new Font(font, control.Font.Size, FontStyle.Regular);//ფონტის მინიჭება გადმოცემულ კონტროლზე
             /*ზომის პარამეტრში გადაეცემა control.Font.Size, რაც აღნიშნავს
             უკვე მინიჭებულ ზომას,რათა ზომა არ შეიცვალოს ფონტის შეცვლის დროს*/
         }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)//როცა მეორე კომბობოქსში აირჩევა აითემი
+        {
+            if (checkBox1.Checked)//თუ ფორმაა მონიშნული
+                SetFontSize(this);
+            if (checkBox2.Checked)//თუ ტექსტბოქსია მონიშნული
+                SetFontSize(textBox1);
+            if (checkBox3.Checked)//თუ ლეიბლია მონიშნული
+                SetFontSize(label1);
+        }
+
+        //გადაეცემა იგივენაირად კონტროლი,მის ფონტს ენიჭება ახალი ფონტის ობიექტი,იგივე ფონტით და არჩეული აითემის ზომით
+        private void SetFontSize(Control control)=>control.Font = new Font(control.Font.FontFamily, float.Parse(comboBox2.SelectedItem.ToString()), FontStyle.Regular);
     }
 }
