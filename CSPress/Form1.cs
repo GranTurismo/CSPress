@@ -57,7 +57,7 @@ namespace CSPress
 
         private void SetFont(Control control)
         {
-            ComboBox comboBox = comboBox1;//კომბობოქსზე წვდომა
+            ComboBox comboBox = comboBox1;//კომბობოქსზე წვდომა 
             string font = comboBox1.SelectedItem as string;//კომბობოქსში მონიშნული აითემის აღება და წვდომა მასზე როგორც string-ზე(ფონტის სახელი)
             control.Font = new Font(font,control.Font.Size,FontStyle.Regular);//ფონტის მინიჭება გადმოცემულ კონტროლზე
             /*ზომის პარამეტრში გადაეცემა control.Font.Size, რაც აღნიშნავს
